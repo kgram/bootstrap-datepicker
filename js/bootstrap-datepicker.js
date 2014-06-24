@@ -771,6 +771,8 @@
 				endYear = this.o.endDate !== Infinity ? this.o.endDate.getUTCFullYear() : Infinity,
 				endMonth = this.o.endDate !== Infinity ? this.o.endDate.getUTCMonth() : Infinity,
 				todaytxt = dates[this.o.language].today || dates['en'].today || '',
+				selecttxt = dates[this.o.language].select || dates['en'].select || '',
+				closetxt = dates[this.o.language].close || dates['en'].close || '',
 				cleartxt = dates[this.o.language].clear || dates['en'].clear || '',
 				tooltip;
 			this.picker.find('.datepicker-days thead th.datepicker-switch')
@@ -778,6 +780,9 @@
 			this.picker.find('tfoot th.today')
 						.text(todaytxt)
 						.toggle(this.o.todayBtn !== false);
+			this.picker.find('tfoot th.select')
+				.text(isNaN(this.getDate().getTime()) ? closetxt : selecttxt)
+				.toggle(this.o.selectBtn === true || (this.o.selectBtn === 'modal' && this._isModal()));
 			this.picker.find('tfoot th.clear')
 						.text(cleartxt)
 						.toggle(this.o.clearBtn !== false);
@@ -963,6 +968,9 @@
 								this.showMode(-2);
 								var which = this.o.todayBtn === 'linked' ? null : 'view';
 								this._setDate(date, which);
+								break;
+							case 'select':
+								this.hide();
 								break;
 							case 'clear':
 								var element;
@@ -1437,7 +1445,8 @@
 		todayBtn: false,
 		todayHighlight: false,
 		weekStart: 0,
-		modal: false
+		modal: false,
+		selectBtn: false
 	};
 
 	$.fn.datepicker.setDefaults = function(opts) {
@@ -1458,6 +1467,8 @@
 			months: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
 			monthsShort: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
 			today: "Today",
+			select: "Select date",
+			close: "Close",
 			clear: "Clear"
 		}
 	};
@@ -1639,6 +1650,9 @@
 						'</thead>',
 		contTemplate: '<tbody><tr><td colspan="7"></td></tr></tbody>',
 		footTemplate: '<tfoot>'+
+							'<tr>' +
+								'<th colspan="7" class="select"></th>' +
+							'</tr>' +
 							'<tr>'+
 								'<th colspan="7" class="today"></th>'+
 							'</tr>'+
