@@ -394,6 +394,8 @@ test('BeforeShowDay', function(){
     target = picker.find('.datepicker-days tbody td:nth(25)');
     equal(target.attr('title'), 'A tooltip', '25th has tooltip');
     ok(!target.hasClass('disabled'), '25th is enabled');
+    target = picker.find('.datepicker-days tbody td[title="A tooltip"]');
+    equal(target.length, 1, '25th should be the only date with tooltip');
     target = picker.find('.datepicker-days tbody td:nth(26)');
     ok(target.hasClass('test26'), '26th has test26 class');
     ok(!target.hasClass('disabled'), '26th is enabled');

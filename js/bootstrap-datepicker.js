@@ -798,6 +798,7 @@
 			var html = [];
 			var clsName;
 			while (prevMonth.valueOf() < nextMonth){
+				tooltip = undefined;
 				if (prevMonth.getUTCDay() === this.o.weekStart){
 					html.push('<tr>');
 					if (this.o.calendarWeeks){
