@@ -646,3 +646,84 @@ test('Multidate Separator', function(){
     target.click();
     equal(input.val(), '2012-03-05 2012-03-04 2012-03-12');
 });
+
+test('Modal on media-query', function() {
+    // Mock window.matchMedia
+    var listeners = [];
+    var mockMediaQueryList = {
+        matches: false,
+        media: [],
+        addListener: function(listener) {
+            listeners.push(listener);
+        },
+        removeListener: function(listener) {
+            for (var i = 0; i < listeners.length; i++) {
+                if (listeners[i] === listener) {
+                    listeners.splice(i,1);
+                }
+            }
+        },
+    };
+
+    function changeMatch(value) {
+        mockMediaQueryList.matches = value;
+        for (var i = 0; i < listeners.length; i++)
+            listeners[i](mockMediaQueryList);
+    }
+
+    var oldMatchMedia;
+    if (window.matchMedia) {
+        oldMatchMedia = window.matchMedia;
+        window.matchMedia = function(query) {
+            mockMediaQueryList.media = query;
+            return mockMediaQueryList;
+        }
+    }
+
+    // Test
+
+    var input = $('<input />')
+                .appendTo('#qunit-fixture')
+                .val('2012-03-05')
+                .datepicker({
+                    format: 'yyyy-mm-dd',
+                    modal: '(max-width: 600px)'
+                }),
+        dp = input.data('datepicker'),
+        picker = dp.picker,
+        target;
+
+    target = picker;
+    input.focus();
+    ok(!target.hasClass('datepicker-modal'), 'Should not be modal when query fails.');
+    changeMatch(true);
+    input.focus();
+    ok(target.hasClass('datepicker-modal'), 'Should be modal when query succeeds.');
+
+    window.matchMedia = oldMatchMedia;
+});
+
+test('Modal on function', function() {
+
+    var isModal = false;
+    // Test
+    var input = $('<input />')
+                .appendTo('#qunit-fixture')
+                .val('2012-03-05')
+                .datepicker({
+                    format: 'yyyy-mm-dd',
+                    modal: function() {
+                        return isModal;
+                    }
+                }),
+        dp = input.data('datepicker'),
+        picker = dp.picker,
+        target;
+
+    target = picker;
+    input.focus();
+    ok(!target.hasClass('datepicker-modal'), 'Should not be modal when function returns false.');
+    isModal = true;
+    input.focus();
+    ok(target.hasClass('datepicker-modal'), 'Should be modal when function returns true.');
+});
