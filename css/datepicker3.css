@@ -75,6 +75,32 @@
   border-bottom: 0;
   border-top: 6px solid #fff;
 }
+.datepicker-dropdown:not(.datepicker-modal) .select {
+  display: none;
+}
+.datepicker-dropdown.datepicker-modal {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  border: none;
+  border-radius: 0;
+  margin: 0;
+}
+.datepicker-dropdown.datepicker-modal > div {
+  position: absolute;
+  left: 50%;
+  margin-left: -140px;
+}
+.datepicker-dropdown.datepicker-modal table {
+  width: 280px;
+  height: 320px;
+}
+.datepicker-dropdown.datepicker-modal table tr td,
+.datepicker-dropdown.datepicker-modal table tr th {
+  min-width: 40px;
+  height: 40px;
+  font-size: 16px;
+}
 .datepicker > div {
   display: none;
 }
@@ -748,7 +774,7 @@ fieldset[disabled] .datepicker table tr td span.active.disabled:hover.active {
   min-width: 16px;
   padding: 4px 5px;
   font-weight: normal;
-  line-height: 1.428571429;
+  line-height: 1.42857143;
   text-align: center;
   text-shadow: 0 1px 0 #fff;
   vertical-align: middle;
@@ -782,7 +808,7 @@ fieldset[disabled] .datepicker table tr td span.active.disabled:hover.active {
   color: #333333;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 13px;
-  line-height: 1.428571429;
+  line-height: 1.42857143;
 }
 .datepicker.dropdown-menu th,
 .datepicker.datepicker-inline th,
