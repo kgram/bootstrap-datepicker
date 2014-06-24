@@ -83,7 +83,19 @@ module.exports = function(grunt){
                 }
             }
         },
-        clean: ['_build']
+        clean: ['_build'],
+		watch: {
+			options: { livereload: true },
+			files: ['./js/*', './less/*', './tests/*'],
+			tasks: ['lint', 'test','dist', 'copy']
+		},
+		copy: {
+			demo: {
+                expand: true,
+				src: ['_build/**/*', 'js/**/*'],
+				dest: 'demo/'
+			}
+		}
     });
 
     grunt.registerTask('lint', 'Lint all js files with jshint and jscs', ['jshint', 'jscs']);
