@@ -359,11 +359,11 @@ test('DaysOfWeekDisabled', function(){
 test('BeforeShowDay', function(){
 
     var beforeShowDay = function(date) {
-        var dateTime = new Date(date.getFullYear(), date.getMonth(), date.getDate()).getTime();
-        var dateTime25th = new Date(2012, 9, 25).getTime();
-        var dateTime26th = new Date(2012, 9, 26).getTime();
-        var dateTime27th = new Date(2012, 9, 27).getTime();
-        var dateTime28th = new Date(2012, 9, 28).getTime();
+        var dateTime = UTCDate(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate()).getTime();
+        var dateTime25th = UTCDate(2012, 9, 25).getTime();
+        var dateTime26th = UTCDate(2012, 9, 26).getTime();
+        var dateTime27th = UTCDate(2012, 9, 27).getTime();
+        var dateTime28th = UTCDate(2012, 9, 28).getTime();
 
         if (dateTime == dateTime25th) {
             return {tooltip: 'A tooltip'};
@@ -394,8 +394,6 @@ test('BeforeShowDay', function(){
     target = picker.find('.datepicker-days tbody td:nth(25)');
     equal(target.attr('title'), 'A tooltip', '25th has tooltip');
     ok(!target.hasClass('disabled'), '25th is enabled');
-    target = picker.find('.datepicker-days tbody td[title="A tooltip"]');
-	equal(target.length, 1, '25th should be the only date with tooltip');
     target = picker.find('.datepicker-days tbody td:nth(26)');
     ok(target.hasClass('test26'), '26th has test26 class');
     ok(!target.hasClass('disabled'), '26th is enabled');
@@ -647,85 +645,4 @@ test('Multidate Separator', function(){
 
     target.click();
     equal(input.val(), '2012-03-05 2012-03-04 2012-03-12');
-});
-
-test('Modal on media-query', function() {
-    // Mock window.matchMedia
-	var listeners = [];
-	var mockMediaQueryList = {
-		matches: false,
-		media: [],
-		addListener: function(listener) {
-			listeners.push(listener);
-		},
-		removeListener: function(listener) {
-			for (var i = 0; i < listeners.length; i++) {
-				if (listeners[i] === listener) {
-					listeners.splice(i,1);
-				}
-			}
-		},
-	};
-	
-	function changeMatch(value) {
-		mockMediaQueryList.matches = value;
-		for (var i = 0; i < listeners.length; i++)
-			listeners[i](mockMediaQueryList);
-	}
-	
-	var oldMatchMedia;
-	if (window.matchMedia) {
-		oldMatchMedia = window.matchMedia;
-		window.matchMedia = function(query) {
-            mockMediaQueryList.media = query;
-			return mockMediaQueryList;
-		}
-	}
-
-    // Test
-
-	var input = $('<input />')
-                .appendTo('#qunit-fixture')
-                .val('2012-03-05')
-                .datepicker({
-                    format: 'yyyy-mm-dd',
-					modal: '(max-width: 600px)'
-                }),
-        dp = input.data('datepicker'),
-        picker = dp.picker,
-        target;
-	
-    target = picker;
-	input.focus();
-	ok(!target.hasClass('datepicker-modal'), 'Should not be modal when query fails.');
-    changeMatch(true);
-    input.focus();
-    ok(target.hasClass('datepicker-modal'), 'Should be modal when query succeeds.');
-	
-	window.matchMedia = oldMatchMedia;
-});
-
-test('Modal on function', function() {
-
-    var isModal = false;
-    // Test
-    var input = $('<input />')
-                .appendTo('#qunit-fixture')
-                .val('2012-03-05')
-                .datepicker({
-                    format: 'yyyy-mm-dd',
-                    modal: function() {
-                        return isModal;
-                    }
-                }),
-        dp = input.data('datepicker'),
-        picker = dp.picker,
-        target;
-
-    target = picker;
-    input.focus();
-    ok(!target.hasClass('datepicker-modal'), 'Should not be modal when function returns false.');
-    isModal = true;
-    input.focus();
-    ok(target.hasClass('datepicker-modal'), 'Should be modal when function returns true.');
 });
