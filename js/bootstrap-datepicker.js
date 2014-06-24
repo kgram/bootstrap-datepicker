@@ -1441,9 +1441,9 @@
 	};
 
 	$.fn.datepicker.setDefaults = function(opts) {
-		defaults = $.fn.datepicker.defaults = $.extend({}, $.fn.datepicker.defaults, opts);
+		$.extend($.fn.datepicker.defaults, opts);
 	};
-	
+
 	var locale_opts = $.fn.datepicker.locale_opts = [
 		'format',
 		'rtl',
