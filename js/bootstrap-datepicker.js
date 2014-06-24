@@ -540,25 +540,6 @@
 		place: function(){
 			if (this.isInline)
 				return;
-
-			this.picker.removeClass(
-				'datepicker-orient-top datepicker-orient-bottom ' +
-				'datepicker-orient-right datepicker-orient-left'
-			);
-
-			var zIndex = parseInt(this.element.parents().filter(function() {
-				return $(this).css('z-index') !== 'auto';
-			}).first().css('z-index')) + 10;
-
-			if (this._isModal()) {
-				this.picker.addClass('datepicker-modal');
-				this.picker.css({top: 0, left: 0, zIndex: zIndex});
-				this.element.blur();
-				return;
-			}
-
-			this.picker.removeClass('datepicker-modal');
-
 			var calendarWidth = this.picker.outerWidth(),
 				calendarHeight = this.picker.outerHeight(),
 				visualPadding = 10,
@@ -566,11 +547,19 @@
 				windowHeight = $window.height(),
 				scrollTop = $window.scrollTop();
 
+			var zIndex = parseInt(this.element.parents().filter(function(){
+					return $(this).css('z-index') !== 'auto';
+				}).first().css('z-index'))+10;
 			var offset = this.component ? this.component.parent().offset() : this.element.offset();
 			var height = this.component ? this.component.outerHeight(true) : this.element.outerHeight(false);
 			var width = this.component ? this.component.outerWidth(true) : this.element.outerWidth(false);
 			var left = offset.left,
 				top = offset.top;
+
+			this.picker.removeClass(
+				'datepicker-orient-top datepicker-orient-bottom '+
+				'datepicker-orient-right datepicker-orient-left'
+			);
 
 			if (this.o.orientation.x !== 'auto'){
 				this.picker.addClass('datepicker-orient-' + this.o.orientation.x);
@@ -611,23 +600,6 @@
 				left: left,
 				zIndex: zIndex
 			});
-		},
-
-		_isModal: function() {
-			if (this.o.modal === undefined)
-				return false;
-
-			if (typeof this.o.modal === 'string' || this.o.modal instanceof String) {
-				if (window.matchMedia === undefined)
-					return false;
-
-				return window.matchMedia(this.o.modal).matches;
-			}
-
-			if (this.o.modal.call && this.o.modal.apply) {
-				return this.o.modal.call(this.picker, this.picker, this.element);
-			}
-			return false;
 		},
 
 		_allow_update: true,

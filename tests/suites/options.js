@@ -359,11 +359,11 @@ test('DaysOfWeekDisabled', function(){
 test('BeforeShowDay', function(){
 
     var beforeShowDay = function(date) {
-        var dateTime = new Date(date.getFullYear(), date.getMonth(), date.getDate()).getTime();
-        var dateTime25th = new Date(2012, 9, 25).getTime();
-        var dateTime26th = new Date(2012, 9, 26).getTime();
-        var dateTime27th = new Date(2012, 9, 27).getTime();
-        var dateTime28th = new Date(2012, 9, 28).getTime();
+        var dateTime = UTCDate(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate()).getTime();
+        var dateTime25th = UTCDate(2012, 9, 25).getTime();
+        var dateTime26th = UTCDate(2012, 9, 26).getTime();
+        var dateTime27th = UTCDate(2012, 9, 27).getTime();
+        var dateTime28th = UTCDate(2012, 9, 28).getTime();
 
         if (dateTime == dateTime25th) {
             return {tooltip: 'A tooltip'};
