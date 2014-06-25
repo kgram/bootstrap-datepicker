@@ -59,6 +59,9 @@
 			border-bottom: 0;
 			border-top:    6px solid #fff;
 		}
+		.select {
+			display: none;
+		}
 		&.datepicker-modal {
  			position: fixed;
 			width: 100%;
@@ -66,12 +69,12 @@
 			border: none;
 			border-radius: 0;
 			margin: 0;
-			& > div {
+			>div {
 				position: absolute;
 				left: 50%;
 				margin-left: -140px;
 			}
-			& table {
+			table {
 				width: 280px;
 				height: 320px;
 				&  tr td, & tr th {
@@ -79,6 +82,9 @@
 					height: 40px;
 					font-size: 16px;
 				}
+			}
+			.select {
+				display: table-cell;
 			}
 		}
 	}

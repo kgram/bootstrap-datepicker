@@ -781,8 +781,11 @@
 						.text(todaytxt)
 						.toggle(this.o.todayBtn !== false);
 			this.picker.find('tfoot th.select')
-				.text(isNaN(this.getDate().getTime()) ? closetxt : selecttxt)
-				.toggle(this.o.selectBtn === true || (this.o.selectBtn === 'modal' && this._isModal()));
+						.text(isNaN(this.getDate().getTime()) ? closetxt : selecttxt);
+			// If selectBtn is modal, visibility will be controlled by the style sheet
+			if (this.o.selectBtn !== 'modal')
+				this.picker.find('tfoot th.select').toggle(this.o.selectBtn);
+
 			this.picker.find('tfoot th.clear')
 						.text(cleartxt)
 						.toggle(this.o.clearBtn !== false);
