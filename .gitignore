@@ -1,4 +1,4 @@
 docs/_build
 node_modules/
-_build
-demo
+*-dist.zip
+bower_components/

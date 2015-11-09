@@ -64,9 +64,25 @@ test('M: Month shortname.', function(){
     equal(this.input.val().split('-')[1], 'Mar');
 });
 
+test('M: Month shortname case insensitive.', function(){
+    this.input
+        .val('2012-MAR-05')
+        .datepicker({format: 'yyyy-M-dd'})
+        .datepicker('setValue');
+    equal(this.input.val().split('-')[1], 'Mar');
+});
+
 test('MM: Month full name.', function(){
     this.input
         .val('2012-March-5')
+        .datepicker({format: 'yyyy-MM-dd'})
+        .datepicker('setValue');
+    equal(this.input.val().split('-')[1], 'March');
+});
+
+test('M: Month fullname case insensitive.', function(){
+    this.input
+        .val('2012-MARCH-05')
         .datepicker({format: 'yyyy-MM-dd'})
         .datepicker('setValue');
     equal(this.input.val().split('-')[1], 'March');
@@ -232,4 +248,49 @@ test('Trailing separators', patch_date(function(Date){
         .datepicker({format: 'dd.mm.yyyy.'})
         .datepicker('setValue');
     equal(this.input.val(), '29.02.2012.');
+}));
+
+test('Assume nearby year - last century', patch_date(function(Date){
+    Date.now = UTCDate(2012, 4, 31);
+    this.input
+        .val('02/14/91')
+        .datepicker({format: 'mm/dd/yyyy', assumeNearbyYear: true})
+        .datepicker('setValue');
+    equal(this.input.val(), '02/14/1991');
+}));
+
+test('Assume nearby year - this century (- 1 year)', patch_date(function(Date){
+    Date.now = UTCDate(2012, 4, 31);
+    this.input
+        .val('02/14/01')
+        .datepicker({format: 'mm/dd/yyyy', assumeNearbyYear: true})
+        .datepicker('setValue');
+    equal(this.input.val(), '02/14/2001');
+}));
+
+test('Assume nearby year - this century (+ 7 years)', patch_date(function(Date){
+    Date.now = UTCDate(2012, 4, 31);
+    this.input
+        .val('02/14/19')
+        .datepicker({format: 'mm/dd/yyyy', assumeNearbyYear: true})
+        .datepicker('setValue');
+    equal(this.input.val(), '02/14/2019');
+}));
+
+test('Assume nearby year - this century (+ 13 years)', patch_date(function(Date){
+    Date.now = UTCDate(2012, 4, 31);
+    this.input
+        .val('02/14/23')
+        .datepicker({format: 'mm/dd/yyyy', assumeNearbyYear: true})
+        .datepicker('setValue');
+    equal(this.input.val(), '02/14/1923');
+}));
+
+test('Assume nearby year - this century (+ 13 years, threshold = 30)', patch_date(function(Date){
+    Date.now = UTCDate(2012, 4, 31);
+    this.input
+        .val('02/14/23')
+        .datepicker({format: 'mm/dd/yyyy', assumeNearbyYear: 30})
+        .datepicker('setValue');
+    equal(this.input.val(), '02/14/2023');
 }));
