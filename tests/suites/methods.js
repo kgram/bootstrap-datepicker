@@ -63,17 +63,6 @@ test('setDate', function(){
     datesEqual(this.dp.dates[0], expected_date);
 });
 
-test('setUTCDate', function(){
-    var date_in = new Date(Date.UTC(2012, 3, 5)),
-        expected_date = date_in,
-        returnedObject;
-
-    notEqual(this.dp.dates[0], date_in);
-    returnedObject = this.dp.setUTCDate(date_in);
-    strictEqual(returnedObject, this.dp, "is chainable");
-    datesEqual(this.dp.dates[0], expected_date);
-});
-
 test('setStartDate', function(){
     var date_in = moment([2012, 3, 5]),
         expected_date = date_in,
