@@ -13,6 +13,6 @@
 		today: "Täna",
 		clear: "Tühjenda",
 		weekStart: 1,
-		format: "dd.mm.yyyy"
+		format: "DD.MM.YYYY"
 	};
 }(jQuery));

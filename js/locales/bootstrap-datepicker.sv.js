@@ -10,7 +10,7 @@
 		months: ["Januari", "Februari", "Mars", "April", "Maj", "Juni", "Juli", "Augusti", "September", "Oktober", "November", "December"],
 		monthsShort: ["Jan", "Feb", "Mar", "Apr", "Maj", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dec"],
 		today: "Idag",
-		format: "yyyy-mm-dd",
+		format: "YYYY-MM-DD",
 		weekStart: 1,
 		clear: "Rensa"
 	};

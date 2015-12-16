@@ -11,7 +11,7 @@
 		monthsShort: ["Հնվ", "Փետ", "Մար", "Ապր", "Մայ", "Հուն", "Հուլ", "Օգս", "Սեպ", "Հոկ", "Նոյ", "Դեկ"],
 		today: "Այսօր",
 		clear: "Ջնջել",
-		format: "dd.mm.yyyy",
+		format: "DD.MM.YYYY",
 		weekStart: 1
 	};
 }(jQuery));

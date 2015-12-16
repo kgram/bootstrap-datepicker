@@ -8,6 +8,6 @@
 		today: "Hoxe",
 		clear: "Limpar",
 		weekStart: 1,
-		format: "dd/mm/yyyy"
+		format: "DD/MM/YYYY"
 	};
 }(jQuery));

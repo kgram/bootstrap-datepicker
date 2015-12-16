@@ -12,6 +12,6 @@
         today: "dzisiaj",
         weekStart: 1,
         clear: "wyczyść",
-        format: "dd.mm.yyyy"
+        format: "DD.MM.YYYY"
     };
 }(jQuery));

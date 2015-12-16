@@ -10,6 +10,6 @@
 		monthsShort: ["Jan", "Feb", "Mar", "Apr", "Maj", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dec"],
 		today: "Danas",
 		weekStart: 1,
-		format: "dd.mm.yyyy"
+		format: "DD.MM.YYYY"
 	};
 }(jQuery));

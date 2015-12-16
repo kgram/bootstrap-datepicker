@@ -11,7 +11,7 @@
 		monthsShort: ["Січ", "Лют", "Бер", "Кві", "Тра", "Чер", "Лип", "Сер", "Вер", "Жов", "Лис", "Гру"],
 		today: "Сьогодні",
 		clear: "Очистити",
-		format: "dd.mm.yyyy",
+		format: "DD.MM.YYYY",
 		weekStart: 1
 	};
 }(jQuery));

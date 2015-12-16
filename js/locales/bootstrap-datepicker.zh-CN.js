@@ -11,8 +11,8 @@
 		monthsShort: ["1月", "2月", "3月", "4月", "5月", "6月", "7月", "8月", "9月", "10月", "11月", "12月"],
 		today: "今日",
 		clear: "清除",
-		format: "yyyy年mm月dd日",
-		titleFormat: "yyyy年mm月",
+		format: "YYYY年MM月DD日",
+		titleFormat: "YYYY年MM月",
 		weekStart: 1
 	};
 }(jQuery));

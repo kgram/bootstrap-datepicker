@@ -12,6 +12,6 @@
 		today: "Hoy",
 		clear: "Borrar",
 		weekStart: 1,
-		format: "dd/mm/yyyy"
+		format: "DD/MM/YYYY"
 	};
 }(jQuery));

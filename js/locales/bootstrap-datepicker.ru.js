@@ -11,7 +11,7 @@
 		monthsShort: ["Янв", "Фев", "Мар", "Апр", "Май", "Июн", "Июл", "Авг", "Сен", "Окт", "Ноя", "Дек"],
 		today: "Сегодня",
 		clear: "Очистить",
-		format: "dd.mm.yyyy",
+		format: "DD.MM.YYYY",
 		weekStart: 1
 	};
 }(jQuery));

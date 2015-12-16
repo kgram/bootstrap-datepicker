@@ -11,8 +11,8 @@
 		monthsShort: ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"],
 		today: "오늘",
 		clear: "삭제",
-		format: "YYYY-MM-DD",
-		titleFormat: "yyyy년mm월",
+		format: "YYYY-MMMM-dd",
+		titleFormat: "YYYY년MM월",
 		weekStart: 0
 	};
 }(jQuery));

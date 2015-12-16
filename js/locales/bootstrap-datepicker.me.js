@@ -12,6 +12,6 @@
 		today: "Danas",
 		weekStart: 1,
 		clear: "Izbriši",
-		format: "dd.mm.yyyy"
+		format: "DD.MM.YYYY"
 	};
 }(jQuery));
