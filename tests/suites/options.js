@@ -256,7 +256,9 @@ test('Today Button: "linked" selects today\'s date', function(){
 });
 
 test('Today Highlight: today\'s date is not highlighted by default', patch_date(function(Date){
-    // Date.now = moment([2012, 2, 15]);
+    // Override new Date()
+    // See mock.js
+    Date.now = moment([2012, 2, 15]);
     var input = $('<input />')
                 .appendTo('#qunit-fixture')
                 .val('2012-03-05')
@@ -280,7 +282,9 @@ test('Today Highlight: today\'s date is not highlighted by default', patch_date(
 }));
 
 test('Today Highlight: today\'s date is highlighted when not active', patch_date(function(Date){
-    // Date.now = new Date(2012, 2, 15);
+    // Override new Date()
+    // See mock.js
+    Date.now = new Date(2012, 2, 15);
     var input = $('<input />')
                 .appendTo('#qunit-fixture')
                 .val('2012-03-05')
@@ -1102,10 +1106,6 @@ test('Enable on readonly options (false)', function(){
     input.focus();
     ok(!picker.is(':visible'));
 });
-
-/*
-
- */
 
 test('Startview: year view visible after date pick', function(){
     var input = $('<input />')
