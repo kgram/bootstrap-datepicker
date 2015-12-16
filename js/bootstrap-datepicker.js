@@ -1109,7 +1109,7 @@
               } else if (target.hasClass('new')) {
                 date.add(1, 'month');
               }
-              date.date(parseInt(target.text(), 10) || 1);
+              date.date(day).startOf('day');
               this._setDate(date);
             }
             break;
@@ -1214,7 +1214,7 @@
             break;
           // left/up navigates back, right/down navigates forward
           dir = e.keyCode < 39 ? -1 : 1;
-          newDate = this.dates.get(-1) || moment();
+          newDate = this.dates.get(-1) || moment().startOf('day');
           var unit;
           // Control navigates years, all directions
           if (e.ctrlKey) {
