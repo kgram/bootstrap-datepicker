@@ -442,8 +442,7 @@
     },
 
     show: function() {
-      if (this.element.attr('readonly') && this.o.enableOnReadonly ===
-        false)
+      if (this.element.attr('readonly') && this.o.enableOnReadonly === false)
         return;
       if (!this.isInline)
         this.picker.appendTo(this.o.container);
@@ -451,8 +450,7 @@
       this.picker.show();
       this._attachSecondaryEvents();
       this._trigger('show');
-      if ((window.navigator.msMaxTouchPoints ||
-          'ontouchstart' in document) && this.o.disableTouchKeyboard) {
+      if ((window.navigator.msMaxTouchPoints || 'ontouchstart' in document) && this.o.disableTouchKeyboard) {
         $(this.element).blur();
       }
       return this;
@@ -469,14 +467,7 @@
       this.viewMode = this.o.startView;
       this.showMode();
 
-      if (
-        this.o.forceParse &&
-        (
-          this.isInput && this.element.val() ||
-          this.hasInput && this.element.find('input')
-          .val()
-        )
-      )
+      if (this.o.forceParse && ( this.isInput && this.element.val() || this.hasInput && this.element.find('input').val()))
         this.setValue();
       this._trigger('hide');
       return this;
@@ -496,15 +487,10 @@
 
     paste: function(evt) {
       var dateString;
-      if (evt.originalEvent.clipboardData && evt.originalEvent
-        .clipboardData.types && $.inArray('text/plain',
-          evt.originalEvent.clipboardData.types) !==
-        -1) {
-        dateString = evt.originalEvent.clipboardData.getData(
-          'text/plain');
+      if (evt.originalEvent.clipboardData && evt.originalEvent.clipboardData.types && $.inArray('text/plain', evt.originalEvent.clipboardData.types) !== -1) {
+        dateString = evt.originalEvent.clipboardData.getData('text/plain');
       } else if (window.clipboardData) {
-        dateString = window.clipboardData.getData(
-          'Text');
+        dateString = window.clipboardData.getData('Text');
       } else {
         return;
       }
@@ -1291,8 +1277,7 @@
           this.fill();
           if (this.picker.is(':visible')) {
             e.preventDefault();
-            if (typeof e.stopPropagation ===
-              'function') {
+            if (typeof e.stopPropagation === 'function') {
               e.stopPropagation(); // All modern browsers, IE9+
             } else {
               e.cancelBubble = true; // IE6,7,8 ignore "stopPropagation"
@@ -1328,14 +1313,12 @@
     showMode: function(dir) {
       if (dir) {
         this.viewMode = Math.max(this.o.minViewMode,
-          Math.min(this.o.maxViewMode, this.viewMode +
-            dir));
+          Math.min(this.o.maxViewMode, this.viewMode + dir));
       }
       this.picker
         .children('div')
         .hide()
-        .filter('.datepicker-' + DPGlobal.modes[this.viewMode]
-          .clsName)
+        .filter('.datepicker-' + DPGlobal.modes[this.viewMode].clsName)
         .show();
       this.updateNavArrows();
     }
