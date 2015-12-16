@@ -1342,8 +1342,8 @@
   };
   DateRangePicker.prototype = {
     updateDates: function() {
-      this.dates = $.map(this.pickers, function(i) {
-        return i.date();
+      this.dates = $.map(this.pickers, function(picker) {
+        return picker.dates;
       });
       this.updateRanges();
     },
