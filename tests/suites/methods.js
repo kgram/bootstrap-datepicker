@@ -2,8 +2,8 @@ module('Methods', {
     setup: function(){
         this.input = $('<input type="text" value="31-03-2011">')
                         .appendTo('#qunit-fixture')
-                        .datepicker({format: "dd-mm-yyyy"});
-        this.dp = this.input.data('datepicker')
+                        .datepicker({format: "DD-MM-YYYY"});
+        this.dp = this.input.data('datepicker');
     },
     teardown: function(){
         this.dp.remove();
@@ -30,15 +30,15 @@ test('hide', function(){
 
 test('update - String', function(){
     var returnedObject = this.dp.update('13-03-2012');
-    datesEqual(this.dp.dates[0], UTCDate(2012, 2, 13));
+    datesEqual(this.dp.dates[0], moment([2012, 2, 13]));
     var date = this.dp.picker.find('.datepicker-days td:contains(13)');
     ok(date.is('.active'), 'Date is selected');
     strictEqual(returnedObject, this.dp, "is chainable");
 });
 
-test('update - Date', function(){
-    var returnedObject = this.dp.update(new Date(2012, 2, 13));
-    datesEqual(this.dp.dates[0], UTCDate(2012, 2, 13));
+test('update - Moment', function(){
+    var returnedObject = this.dp.update(moment([2012, 2, 13]));
+    datesEqual(this.dp.dates[0], moment([2012, 2, 13]));
     var date = this.dp.picker.find('.datepicker-days td:contains(13)');
     ok(date.is('.active'), 'Date is selected');
     strictEqual(returnedObject, this.dp, "is chainable");
@@ -53,8 +53,8 @@ test('update - null', function(){
 });
 
 test('setDate', function(){
-    var date_in = new Date(2013, 1, 1),
-        expected_date = new Date(Date.UTC(2013, 1, 1)),
+    var date_in = moment([2013, 1, 1]),
+        expected_date = moment([2013, 1, 1]),
         returnedObject;
 
     notEqual(this.dp.dates[0], date_in);
@@ -75,7 +75,7 @@ test('setUTCDate', function(){
 });
 
 test('setStartDate', function(){
-    var date_in = new Date(Date.UTC(2012, 3, 5)),
+    var date_in = moment([2012, 3, 5]),
         expected_date = date_in,
         returnedObject = this.dp.setStartDate(date_in);
     // ...
@@ -84,7 +84,7 @@ test('setStartDate', function(){
 });
 
 test('setEndDate', function(){
-    var date_in = new Date(Date.UTC(2012, 3, 5)),
+    var date_in = moment([2012, 3, 5]),
         expected_date = date_in,
         returnedObject = this.dp.setEndDate(date_in);
     // ...
@@ -124,7 +124,7 @@ test('place', function(){
 
 test('moveMonth - can handle invalid date', function(){
     // any input which results in an invalid date, f.e. an incorrectly formatted.
-    var invalidDate = new Date("invalid"),
+    var invalidDate = moment.invalid(),
         returnedObject = this.dp.moveMonth(invalidDate, 1);
     // ...
     equal(this.input.val(), "31-03-2011", "date is reset");

@@ -2,9 +2,9 @@ module('Events', {
     setup: function(){
         this.input = $('<input type="text" value="31-03-2011">')
                         .appendTo('#qunit-fixture')
-                        .datepicker({format: "dd-mm-yyyy"})
+                        .datepicker({format: "DD-MM-YYYY"})
                         .focus(); // Activate for visibility checks
-        this.dp = this.input.data('datepicker')
+        this.dp = this.input.data('datepicker');
         this.picker = this.dp.picker;
     },
     teardown: function(){
@@ -28,8 +28,8 @@ test('Selecting a year from decade view triggers changeYear', function(){
     ok(this.picker.find('.datepicker-months').is(':visible'), 'Month picker is visible');
     equal(this.dp.viewMode, 1);
     // Not modified when switching modes
-    datesEqual(this.dp.viewDate, UTCDate(2011, 2, 31));
-    datesEqual(this.dp.dates[0], UTCDate(2011, 2, 31));
+    datesEqual(this.dp.viewDate, moment([2011, 2, 31]));
+    datesEqual(this.dp.dates[0], moment([2011, 2, 31]));
 
     target = this.picker.find('.datepicker-months thead th.datepicker-switch');
     ok(target.is(':visible'), 'View switcher is visible');
@@ -38,16 +38,16 @@ test('Selecting a year from decade view triggers changeYear', function(){
     ok(this.picker.find('.datepicker-years').is(':visible'), 'Year picker is visible');
     equal(this.dp.viewMode, 2);
     // Not modified when switching modes
-    datesEqual(this.dp.viewDate, UTCDate(2011, 2, 31));
-    datesEqual(this.dp.dates[0], UTCDate(2011, 2, 31));
+    datesEqual(this.dp.viewDate, moment([2011, 2, 31]));
+    datesEqual(this.dp.dates[0], moment([2011, 2, 31]));
 
     // Change years to test internal state changes
     target = this.picker.find('.datepicker-years tbody span:contains(2010)');
     target.click();
     equal(this.dp.viewMode, 1);
     // Only viewDate modified
-    datesEqual(this.dp.viewDate, UTCDate(2010, 2, 1));
-    datesEqual(this.dp.dates[0], UTCDate(2011, 2, 31));
+    datesEqual(this.dp.viewDate, moment([2010, 2, 1]));
+    datesEqual(this.dp.dates[0], moment([2011, 2, 31]));
     equal(triggered, 1);
 });
 
@@ -98,15 +98,15 @@ test('Selecting a month from year view triggers changeMonth', function(){
     ok(this.picker.find('.datepicker-months').is(':visible'), 'Month picker is visible');
     equal(this.dp.viewMode, 1);
     // Not modified when switching modes
-    datesEqual(this.dp.viewDate, UTCDate(2011, 2, 31));
-    datesEqual(this.dp.dates[0], UTCDate(2011, 2, 31));
+    datesEqual(this.dp.viewDate, moment([2011, 2, 31]));
+    datesEqual(this.dp.dates[0], moment([2011, 2, 31]));
 
     target = this.picker.find('.datepicker-months tbody span:contains(Apr)');
     target.click();
     equal(this.dp.viewMode, 0);
     // Only viewDate modified
-    datesEqual(this.dp.viewDate, UTCDate(2011, 3, 1));
-    datesEqual(this.dp.dates[0], UTCDate(2011, 2, 31));
+    datesEqual(this.dp.viewDate, moment([2011, 3, 1]));
+    datesEqual(this.dp.dates[0], moment([2011, 2, 31]));
     equal(triggered, 1);
 });
 
@@ -142,8 +142,8 @@ test('format() returns a formatted date string', function(){
         try{
             out = e.format();
         }
-        catch(e){
-            error = e;
+        catch(err){
+            error = err;
         }
     });
 
@@ -151,9 +151,9 @@ test('format() returns a formatted date string', function(){
     target = this.picker.find('.datepicker-days tbody td:nth(15)');
     target.click();
 
-    datesEqual(this.dp.viewDate, UTCDate(2011, 2, 14));
-    datesEqual(this.dp.dates[0], UTCDate(2011, 2, 14));
-    equal(error, undefined)
+    datesEqual(this.dp.viewDate, moment([2011, 2, 14]));
+    datesEqual(this.dp.dates[0], moment([2011, 2, 14]));
+    equal(error, undefined);
     equal(out, '14-03-2011');
 });
 
@@ -163,10 +163,10 @@ test('format(altformat) returns a formatted date string', function(){
 
     this.input.on('changeDate', function(e){
         try{
-            out = e.format('m/d/yy');
+            out = e.format('M/D/YY');
         }
-        catch(e){
-            error = e;
+        catch(err){
+            error = err;
         }
     });
 
@@ -174,9 +174,9 @@ test('format(altformat) returns a formatted date string', function(){
     target = this.picker.find('.datepicker-days tbody td:nth(15)');
     target.click();
 
-    datesEqual(this.dp.viewDate, UTCDate(2011, 2, 14));
-    datesEqual(this.dp.dates[0], UTCDate(2011, 2, 14));
-    equal(error, undefined)
+    datesEqual(this.dp.viewDate, moment([2011, 2, 14]));
+    datesEqual(this.dp.dates[0], moment([2011, 2, 14]));
+    equal(error, undefined);
     equal(out, '3/14/11');
 });
 
@@ -190,8 +190,8 @@ test('format(ix) returns a formatted date string of the ix\'th date selected', f
         try{
             out = e.format(2);
         }
-        catch(e){
-            error = e;
+        catch(err){
+            error = err;
         }
     });
 
@@ -217,10 +217,10 @@ test('format(ix, altformat) returns a formatted date string', function(){
 
     this.input.on('changeDate', function(e){
         try{
-            out = e.format(2, 'm/d/yy');
+            out = e.format(2, 'M/D/YY');
         }
-        catch(e){
-            error = e;
+        catch(err){
+            error = err;
         }
     });
 
@@ -242,7 +242,7 @@ test('Clear button: triggers change and changeDate events', function(){
     this.input = $('<input type="text" value="31-03-2011">')
                     .appendTo('#qunit-fixture')
                     .datepicker({
-                        format: "dd-mm-yyyy",
+                        format: "DD-MM-YYYY",
                         clearBtn: true
                     })
                     .focus(); // Activate for visibility checks
@@ -317,18 +317,18 @@ test('paste must update the date', function() {
         }
     };
     this.input.trigger(evt);
-    datesEqual(this.dp.dates[0], UTCDate(2015, 6, 22));
+    datesEqual(this.dp.dates.get(-1), moment([2015, 6, 22]));
 });
 
 test('clicking outside datepicker triggers \'hide\' event', function(){
     var $otherelement = $('<div />');
     $('body').append($otherelement);
-	
+
     var isHideTriggered;
     this.input.on('hide', function() { isHideTriggered = true; });
 
     $otherelement.trigger('mousedown');
-	
+
     ok(isHideTriggered, '\'hide\' event is not triggered');
 
     $otherelement.remove();
