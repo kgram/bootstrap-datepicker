@@ -717,9 +717,7 @@
         }, this));
         fromArgs = true;
       } else {
-        dates = this.isInput ? this.element.val() :
-          this.element.data('date') || this.element.find(
-            'input').val();
+        dates = this.isInput ? this.element.val() : this.element.data('date') || this.element.find( 'input').val();
         if (dates && this.o.multidate)
           dates = dates.split(this.o.multidateSeparator);
         else
@@ -812,22 +810,18 @@
           year && date.month() > month)) {
         cls.push('new');
       }
-      if (this.focusDate && date.valueOf() === this.focusDate
-        .valueOf())
+      if (this.focusDate && date.valueOf() === this.focusDate.valueOf())
         cls.push('focused');
       if (this.o.todayHighlight && date.isSame(today, 'day')) {
         cls.push('today');
       }
       if (this.dates.contains(date) !== -1)
         cls.push('active');
-      if (date.valueOf() < this.o.startDate || date.valueOf() >
-        this.o.endDate ||
-        $.inArray(date.day(), this.o.daysOfWeekDisabled) !==
-        -1) {
+      if (date.valueOf() < this.o.startDate || date.valueOf() > this.o.endDate ||
+        $.inArray(date.day(), this.o.daysOfWeekDisabled) !== -1) {
         cls.push('disabled');
       }
-      if ($.inArray(date.day(), this.o.daysOfWeekHighlighted) !==
-        -1) {
+      if ($.inArray(date.day(), this.o.daysOfWeekHighlighted) !== -1) {
         cls.push('highlighted');
       }
       if (this.o.datesDisabled.length > 0 &&
@@ -838,19 +832,16 @@
       }
 
       if (this.range) {
-        if (date > this.range[0] && date < this.range[
-            this.range.length - 1]) {
+        if (date > this.range[0] && date < this.range[this.range.length - 1]) {
           cls.push('range');
         }
-        if ($.inArray(date.valueOf(), this.range) !== -
-          1) {
+        if ($.inArray(date.valueOf(), this.range) !== -1) {
           cls.push('selected');
         }
         if (date.valueOf() === this.range[0]) {
           cls.push('range-start');
         }
-        if (date.valueOf() === this.range[this.range.length -
-            1]) {
+        if (date.valueOf() === this.range[this.range.length - 1]) {
           cls.push('range-end');
         }
       }
@@ -1013,9 +1004,7 @@
             tooltip = yrBefore.tooltip;
         }
 
-        html += '<span class="' + classes.join(' ') +
-          '"' + (tooltip ? ' title="' + tooltip + '"' :
-            '') + '>' + year + '</span>';
+        html += '<span class="' + classes.join(' ') + '"' + (tooltip ? ' title="' + tooltip + '"' : '') + '>' + year + '</span>';
         year += 1;
       }
       yearCont.html(html);
@@ -1045,8 +1034,7 @@
     click: function(e) {
       e.preventDefault();
       e.stopPropagation();
-      var target = $(e.target).closest('span, td, th'),
-        year, month, day;
+      var target = $(e.target).closest('span, td, th'), year, month, day;
       if (target.length === 1) {
         switch (target[0].nodeName.toLowerCase()) {
           case 'th':
@@ -1093,8 +1081,7 @@
                 this.viewDate.month(month);
                 this._trigger('changeMonth', this.viewDate);
                 if (this.o.minViewMode === 1) {
-                  this._setDate(moment([year,
-                    month, day]));
+                  this._setDate(moment([year, month, day]));
                   this.showMode();
                 } else {
                   this.showMode(-1);
@@ -1104,8 +1091,7 @@
                 month = 0;
                 year = parseInt(target.text(), 10) || 0;
                 this.viewDate.year(year);
-                this._trigger('changeYear',
-                  this.viewDate);
+                this._trigger('changeYear', this.viewDate);
                 if (this.o.minViewMode === 2) {
                   this._setDate(moment([year, month, month]));
                 }
@@ -1142,8 +1128,7 @@
       }
 
       if (ix !== -1) {
-        if (this.o.multidate === true || this.o.multidate >
-          1 || this.o.toggleActive) {
+        if (this.o.multidate === true || this.o.multidate > 1 || this.o.toggleActive) {
           this.dates.remove(ix);
         }
       } else if (this.o.multidate === false) {
