@@ -950,7 +950,7 @@
         var that = this;
         $.each(months, function(i, month) {
           if (!$(month).hasClass('disabled')) {
-            var moDate = moment(date.year(), i, 1);
+            var moDate = moment([date.year(), i, 1]);
             var before = that.o.beforeShowMonth(moDate);
             if (before === false)
               $(month).addClass('disabled');
