@@ -1350,7 +1350,7 @@
         return;
       }
 
-      var new_date = dp.date(),
+      var new_date = dp.getDate(),
         i = $.inArray(e.target, this.inputs),
         j = i - 1,
         k = i + 1,
@@ -1359,19 +1359,20 @@
         return;
 
       $.each(this.pickers, function(i, p) {
-        if (!p.date())
-          p.date(new_date);
+        if (!p.getDate())
+          p.focusDate = new_date.clone();
+          // p.setDate(new_date);
       });
 
       if (new_date < this.dates[j]) {
         // Date being moved earlier/left
         while (j >= 0 && new_date < this.dates[j]) {
-          this.pickers[j--].date(new_date);
+          this.pickers[j--].setDate(new_date);
         }
       } else if (new_date > this.dates[k]) {
         // Date being moved later/right
         while (k < l && new_date > this.dates[k]) {
-          this.pickers[k++].date(new_date);
+          this.pickers[k++].setDate(new_date);
         }
       }
       this.updateDates();
