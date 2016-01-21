@@ -763,7 +763,7 @@
     },
 
     fillDow: function() {
-      var dowCnt = this.o.weekStart,
+      var firstDayOfWeek = moment.localeData().firstDayOfWeek(),
         html = '<tr>';
       if (this.o.calendarWeeks) {
         this.picker.find('.datepicker-days .datepicker-switch')
@@ -772,8 +772,8 @@
           });
         html += '<th class="cw">&#160;</th>';
       }
-      while (dowCnt < this.o.weekStart + 7) {
-        html += '<th class="dow">' + moment.weekdaysMin((dowCnt++) % 7) + '</th>';
+      for (var i = 0; i < 7; i++) {
+        html += '<th class="dow">' + moment.weekdaysMin((i + firstDayOfWeek) % 7) + '</th>';
       }
       html += '</tr>';
       this.picker.find('.datepicker-days thead').append(html);
