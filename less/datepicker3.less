@@ -1,4 +1,10 @@
 .datepicker {
+	@today-bg: lighten(orange, 30%);
+	@highlighted-bg: @state-info-bg;
+	@range-bg: @gray-lighter;
+	@range-highlighted-bg: mix(@state-info-bg, @gray-lighter, 50%);
+	@range-today-bg: mix(orange, @gray-lighter, 50%);
+
 	border-radius: @border-radius-base;
 	&-inline {
 		width: 220px;
@@ -120,7 +126,6 @@
 			cursor: default;
 		}
 		&.highlighted {
-			@highlighted-bg: @state-info-bg;
 			.button-variant(#000, @highlighted-bg, darken(@highlighted-bg, 20%));
 			border-radius: 0;
 
@@ -135,7 +140,6 @@
 			}
 		}
 		&.today {
-			@today-bg: lighten(orange, 30%);
 			.button-variant(#000, @today-bg, darken(@today-bg, 20%));
 
 			&.focused {
@@ -149,7 +153,6 @@
 			}
 		}
 		&.range {
-			@range-bg: @gray-lighter;
 			.button-variant(#000, @range-bg, darken(@range-bg, 20%));
 			border-radius: 0;
 
@@ -164,7 +167,6 @@
 			}
 		}
 		&.range.highlighted {
-			@range-highlighted-bg: mix(@state-info-bg, @gray-lighter, 50%);
 			.button-variant(#000, @range-highlighted-bg, darken(@range-highlighted-bg, 20%));
 
 			&.focused {
@@ -178,7 +180,6 @@
 			}
 		}
 		&.range.today {
-			@range-today-bg: mix(orange, @gray-lighter, 50%);
 			.button-variant(#000, @range-today-bg, darken(@range-today-bg, 20%));
 
 			&.disabled,
@@ -249,35 +250,5 @@
 		width: 12px;
 		padding: 0 2px 0 5px;
 		vertical-align: middle;
-	}
-}
-.input-group.date .input-group-addon {
-	cursor: pointer;
-}
-.input-daterange {
-	width: 100%;
-	input {
-		text-align: center;
-	}
-	input:first-child {
-		border-radius: 3px 0 0 3px;
-	}
-	input:last-child {
-		border-radius: 0 3px 3px 0;
-	}
-	.input-group-addon {
-		width: auto;
-		min-width: 16px;
-		padding: 4px 5px;
-		font-weight: normal;
-		line-height: @line-height-base;
-		text-align: center;
-		text-shadow: 0 1px 0 #fff;
-		vertical-align: middle;
-		background-color: @input-group-addon-bg;
-		border: solid @input-group-addon-border-color;
-		border-width: 1px 0;
-		margin-left: -5px;
-		margin-right: -5px;
 	}
 }
