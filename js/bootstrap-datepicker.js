@@ -1539,16 +1539,6 @@
       navFnc: 'FullYear',
       navStep: 10
     }],
-    isLeapYear: function(year) {
-      return (((year % 4 === 0) && (year % 100 !== 0)) ||
-        (year % 400 === 0));
-    },
-    getDaysInMonth: function(year, month) {
-      return [31, (DPGlobal.isLeapYear(year) ? 29 : 28),
-        31, 30, 31, 30, 31, 31, 30, 31, 30, 31
-      ][month];
-    },
-    nonpunctuation: /[^ -\/:-@\[\u3400-\u9fff-`{-~\t\n\r]+/g,
     headTemplate: '<thead>' +
       '<tr>' +
       '<th colspan="7" class="datepicker-title"></th>' +
