@@ -8,7 +8,7 @@
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.js"></script>
         <script src="assets/jquery-1.7.1.min.js"></script>
-        <script src="assets/moment-2.10.6.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.1/moment-with-locales.js"></script>
 
         <script src="../js/bootstrap-datepicker.js"></script>
 
@@ -164,7 +164,7 @@
         Options:<br>
 
         <label for="format">Format
-          <input class="span2 col-md-2 form-control" id="format" name="format" type="text" placeholder="mm/dd/yyyy"></label>
+          <input class="span2 col-md-2 form-control" id="format" name="format" type="text" placeholder="MM/DD/YYYY"></label>
         <label for="weekStart">Week start
           <input class="span1 col-md-1 form-control" id="weekStart" name="weekStart" type="text" placeholder="0" style="background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABHklEQVQ4EaVTO26DQBD1ohQWaS2lg9JybZ+AK7hNwx2oIoVf4UPQ0Lj1FdKktevIpel8AKNUkDcWMxpgSaIEaTVv3sx7uztiTdu2s/98DywOw3Dued4Who/M2aIx5lZV1aEsy0+qiwHELyi+Ytl0PQ69SxAxkWIA4RMRTdNsKE59juMcuZd6xIAFeZ6fGCdJ8kY4y7KAuTRNGd7jyEBXsdOPE3a0QGPsniOnnYMO67LgSQN9T41F2QGrQRRFCwyzoIF2qyBuKKbcOgPXdVeY9rMWgNsjf9ccYesJhk3f5dYT1HX9gR0LLQR30TnjkUEcx2uIuS4RnI+aj6sJR0AM8AaumPaM/rRehyWhXqbFAA9kh3/8/NvHxAYGAsZ/il8IalkCLBfNVAAAAABJRU5ErkJggg==); background-attachment: scroll; background-position: 100% 50%; background-repeat: no-repeat;"></label>
         <label for="startDate">Start date
@@ -347,7 +347,8 @@
 
         function build_code(){
           var form = $('.sandbox-form'),
-              values = {};
+              values = {},
+              lang = 'en';
           $.each(form.serializeArray(), function(i,e){
             if (e.name in values)
               values[e.name] += ',' + e.value;
@@ -364,12 +365,14 @@
           var js = "$('#sandbox-container "+selector+"').datepicker({\n",
               val;
           for (var opt in $.extend({}, defaults, values)){
-            if (values[opt] != defaults[opt]){
+            if (opt === 'language')
+              lang = values[opt];
+            else if (values[opt] != defaults[opt]){
               val = values[opt];
               if (opt == 'daysOfWeekDisabled' || opt == 'daysOfWeekHighlighted') val = '"'+val+'"'
-              else if (opt == 'beforeShowDay') val = function(date){
-                if (date.getMonth() == (new Date()).getMonth())
-                  switch (date.getDate()){
+              else if (opt == 'beforeShowDay') val = function(day){
+                if (day.isSame(moment(), 'month'))
+                  switch (day.date()){
                     case 4:
                       return {
                         tooltip: 'Example tooltip',
@@ -381,13 +384,13 @@
                       return "green";
                 }
               }
-              else if (opt == 'beforeShowMonth') val = function(date){
-                if (date.getMonth() == 8) {
+              else if (opt == 'beforeShowMonth') val = function(month){
+                if (month.month() === 8) {
                   return false;
                 }
               }
-              else if (opt == 'beforeShowYear') val = function(date){
-                if (date.getFullYear() == 2007) {
+              else if (opt == 'beforeShowYear') val = function(year){
+                if (year.year() === 2007) {
                   return false;
                 }
               }
@@ -407,6 +410,7 @@
               js += "    " + opt + ": " + val + ",\n"
             }
           }
+          js = 'moment.locale("' + lang + '");\n\n' + js;
           if (js.slice(-2) == ",\n")
             js = js.slice(0,-2) + "\n";
           js += "});";
@@ -445,8 +449,7 @@
 
         $('.sandbox-form')
           .submit(function(){ return false; })
-          .keydown(update_all)
-          .keyup(update_all)
+          .on('keydown keyup change', update_all)
           .click(function(e){
             update_code();
             update_sandbox();
@@ -513,80 +516,8 @@
           update_sandbox();
         }, 300);
 
-        // Analytics event tracking
-        // What options are people interested in?
-        $('.sandbox-form input, .sandbox-form select').change(function(e){
-          var $this = $(this),
-              val, opt;
-          opt = $this.attr('name');
-          val = $this.val();
-          if ($this.is(':checkbox') && val == 'on')
-            val = $this.is(':checked') ? "on" : "off";
-          _gaq.push(['_trackEvent', 'Sandbox', 'Option: ' + opt, val]);
-        });
-        // Do they even use the reset button?
-        $('.sandbox-form button[type=reset]').click(function(){
-          _gaq.push(['_trackEvent', 'Sandbox', 'Reset']);
-        });
-
-        var flag=0, mousedown=false, delta=0, x=0, y=0, dx, dy;
-        // How do they interact with the HTML display?  Do they select
-        // the code, do they try to edit it (I'd want to!)?
-        $("#sandbox-html").mousedown(function(e){
-          mousedown = true;
-          delta = 0; x=e.clientX; y=e.clientY;
-        });
-        $("#sandbox-html").mousemove(function(e){
-          if (mousedown){
-            dx = Math.abs(e.clientX-x);
-            dy = Math.abs(e.clientY-y);
-            delta = Math.max(dx, dy);
-          }
-        });
-        $("#sandbox-html").mouseup(function(){
-          if(delta <= 10)
-            _gaq.push(['_trackEvent', 'Sandbox', 'HTML Clicked']);
-          else
-            _gaq.push(['_trackEvent', 'Sandbox', 'HTML Selected']);
-          delta = 0;
-          mousedown = false;
-        });
-
-        // How do they interact with the JS display?  Do they select
-        // the code, do they try to edit it (I'd want to!)?
-        $("#sandbox-js").mousedown(function(e){
-          mousedown = true;
-          delta = 0; x=e.clientX; y=e.clientY;
-        });
-        $("#sandbox-js").mousemove(function(e){
-          if (mousedown){
-            dx = Math.abs(e.clientX-x);
-            dy = Math.abs(e.clientY-y);
-            delta = Math.max(dx, dy);
-          }
-        });
-        $("#sandbox-js").mouseup(function(){
-          if(delta <= 10)
-            _gaq.push(['_trackEvent', 'Sandbox', 'JS Clicked']);
-          else
-            _gaq.push(['_trackEvent', 'Sandbox', 'JS Selected']);
-          delta = 0;
-          mousedown = false;
-        });
-
-
         $(page).trigger('change:bootstrap', page.bootstrap)
       });
-
-      var _gaq = _gaq || [];
-      _gaq.push(['_setAccount', 'UA-1453188-13']);
-      _gaq.push(['_trackPageview']);
-
-      (function() {
-        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-      })();
 
     </script>
     <div class="row form-horizontal">
