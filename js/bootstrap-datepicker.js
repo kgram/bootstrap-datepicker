@@ -622,12 +622,9 @@
       });
       var zIndex = Math.max.apply(Math, parentsZindex) +
         this.o.zIndexOffset;
-      var offset = this.component ? this.component.parent()
-        .offset() : this.element.offset();
-      var height = this.component ? this.component.outerHeight(
-        true) : this.element.outerHeight(false);
-      var width = this.component ? this.component.outerWidth(
-        true) : this.element.outerWidth(false);
+      var offset = this.component ? this.component.parent().offset() : this.element.offset();
+      var height = this.component ? this.component.outerHeight(true) : this.element.outerHeight(false);
+      var width = this.component ? this.component.outerWidth(true) : this.element.outerWidth(false);
       var left = offset.left - appendOffset.left,
         top = offset.top - appendOffset.top;
 
@@ -1044,8 +1041,7 @@
                 break;
               case 'prev':
               case 'next':
-                var dir = DPGlobal.modes[this.viewMode]
-                  .navStep * (target[0].className === 'prev' ? -1 : 1);
+                var dir = DPGlobal.modes[this.viewMode].navStep * (target[0].className === 'prev' ? -1 : 1);
                 switch (this.viewMode) {
                   case 0:
                     this.viewDate = this.moveMonth(this.viewDate, dir);
