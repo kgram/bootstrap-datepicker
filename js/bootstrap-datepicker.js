@@ -156,9 +156,13 @@
       // fallback to 2 letter code eg "de"
       var lang = o.language;
       if (!dates[lang]) {
-        lang = lang.split('-')[0];
-        if (!dates[lang])
-          lang = defaults.language;
+        lang = lang && lang.split('-')[0];
+      }
+      if (!dates[lang]) {
+        lang = moment.locale();
+      }
+      if (!dates[lang]) {
+        lang = 'en';
       }
       o.language = lang;
 
@@ -1412,9 +1416,13 @@
     // Check if "de-DE" style date is available, if not language should
     // fallback to 2 letter code eg "de"
     if (!dates[lang]) {
-      lang = lang.split('-')[0];
-      if (!dates[lang])
-        return;
+      lang = lang && lang.split('-')[0];
+    }
+    if (!dates[lang]) {
+      lang = moment.locale();
+    }
+    if (!dates[lang]) {
+      lang = 'en';
     }
     var d = dates[lang];
     $.each(locale_opts, function(i, k) {
@@ -1432,33 +1440,25 @@
     this.each(function() {
       var $this = $(this),
         data = $this.data('datepicker'),
-        options = typeof option === 'object' &&
-        option;
+        options = typeof option === 'object' && option;
       if (!data) {
         var elopts = opts_from_el(this, 'date'),
           // Preliminary otions
-          xopts = $.extend({}, defaults, elopts,
-            options),
+          xopts = $.extend({}, defaults, elopts, options),
           locopts = opts_from_locale(xopts.language),
           // Options priority: js args, data-attrs, locales, defaults
-          opts = $.extend({}, defaults, locopts,
-            elopts, options);
-        if ($this.hasClass('input-daterange') ||
-          opts.inputs) {
+          opts = $.extend({}, defaults, locopts, elopts, options);
+        if ($this.hasClass('input-daterange') || opts.inputs) {
           var ropts = {
-            inputs: opts.inputs || $this.find(
-              'input').toArray()
+            inputs: opts.inputs || $this.find('input').toArray()
           };
-          data = new DateRangePicker(this, $.extend(
-            opts, ropts));
+          data = new DateRangePicker(this, $.extend(opts, ropts));
         } else {
           data = new Datepicker(this, opts);
         }
       }
-      if (typeof option === 'string' && typeof data[
-          option] === 'function') {
-        internal_return = data[option].apply(data,
-          args);
+      if (typeof option === 'string' && typeof data[option] === 'function') {
+        internal_return = data[option].apply(data, args);
       }
     });
 
@@ -1494,7 +1494,6 @@
     forceParse: true,
     format: 'L',
     keyboardNavigation: true,
-    language: 'en',
     minViewMode: 0,
     maxViewMode: 2,
     multidate: false,
