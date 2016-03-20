@@ -8,7 +8,7 @@ module('Component', {
                         .datepicker({format: "DD-MM-YYYY"});
         this.input = this.component.find('input');
         this.addon = this.component.find('.add-on');
-        this.dp = this.component.data('datepicker')
+        this.dp = this.component.data('datepicker');
         this.picker = this.dp.picker;
     },
     teardown: function(){
@@ -71,7 +71,7 @@ test('simple keyboard nav test', function(){
     this.input.trigger({
         type: 'keydown',
         keyCode: 37,
-        ctrlKey: true
+        altKey: true
     });
     datesEqual(this.dp.viewDate, moment([2011, 2, 11]));
     datesEqual(this.dp.getDate(), moment([2012, 1, 12]));
@@ -152,8 +152,8 @@ test('Selecting date resets viewDate and date', function(){
 
     // Updated internally on click
     target.click();
-    datesEqual(this.dp.viewDate, moment([2012, 1, 26]))
-    datesEqual(this.dp.dates[0], moment([2012, 1, 26]))
+    datesEqual(this.dp.viewDate, moment([2012, 1, 26]));
+    datesEqual(this.dp.dates[0], moment([2012, 1, 26]));
 
     // Re-rendered on click
     target = this.picker.find('.datepicker-days tbody td:first');
@@ -185,7 +185,7 @@ test('Does not block events', function(){
 
 test('date and viewDate must be between startDate and endDate when setStartDate called', function() {
     this.dp.setDate(moment([2013, 1, 1]));
-    datesEqual(this.dp.dates[0], moment([2013, 1, 1]));
+    datesEqual(this.dp.getDate(), moment([2013, 1, 1]));
     datesEqual(this.dp.viewDate, moment([2013, 1, 1]));
     this.dp.setStartDate(moment([2013, 5, 6]));
     datesEqual(this.dp.viewDate, moment([2013, 5, 6]));

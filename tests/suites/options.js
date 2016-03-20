@@ -160,7 +160,10 @@ test('Today Button: data-api', function(){
         ok(picker.find('.datepicker-days tfoot .today').is(':visible'), 'Today button visible');
 });
 
-test('Today Button: moves to today\'s date', function(){
+test('Today Button: moves to today\'s date', patch_date(function(){
+    // Override new Date()
+    // See mock.js
+    Date.now = moment([2012, 2, 15]);
     var input = $('<input />')
                 .appendTo('#qunit-fixture')
                 .val('2012-03-05')
@@ -180,11 +183,14 @@ test('Today Button: moves to today\'s date', function(){
         target.click();
 
         var today = moment().startOf('day');
-        datesEqual(dp.viewDate, today);
-        datesEqual(dp.dates[0], moment([2012, 2, 5]));
-});
+        datesEqual(dp.viewDate, today, 'viewDate updated');
+        datesEqual(dp.dates[0], moment([2012, 2, 5]), 'date not updated');
+}));
 
-test('Today Button: "linked" selects today\'s date', function(){
+test('Today Button: "linked" selects today\'s date', patch_date(function(Date){
+    // Override new Date()
+    // See mock.js
+    Date.now = moment([2012, 2, 15]);
     var input = $('<input />')
                 .appendTo('#qunit-fixture')
                 .val('2012-03-05')
@@ -206,7 +212,7 @@ test('Today Button: "linked" selects today\'s date', function(){
         var today = moment().startOf('day');
         datesEqual(dp.viewDate, today);
         datesEqual(dp.dates[0], today);
-});
+}));
 
 test('Today Highlight: today\'s date is not highlighted by default', patch_date(function(Date){
     // Override new Date()

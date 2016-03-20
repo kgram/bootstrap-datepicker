@@ -269,8 +269,8 @@ test('Clear button: triggers change and changeDate events', function(){
     target = this.picker.find('.datepicker-days tfoot .clear');
     target.click();
 
-    equal(triggered_change, 1);
-    equal(triggered_changeDate, 1);
+    equal(triggered_change, 1, 'change triggered once');
+    equal(triggered_changeDate, 1, 'changeDate triggered once');
 });
 
 test('setDate: triggers change and changeDate events', function(){
