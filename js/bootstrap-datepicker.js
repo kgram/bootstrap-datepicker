@@ -530,7 +530,6 @@
       var args = $.isArray(arguments[0]) ? arguments[0] :
         arguments;
       this.update.apply(this, args);
-      this._trigger('changeDate');
       this.setValue();
       return this;
     },
@@ -547,7 +546,7 @@
         var old = this.element.val();
         if (old !== formatted) {
           this.element.val(formatted);
-          this.element.trigger('change');
+          this._trigger('change');
         }
       }
       return this;
@@ -711,6 +710,7 @@
       if (arguments.length > 0) {
         // setting date by clicking
         this.setValue();
+        this._trigger('changeDate');
       } else if (this.dates.length) {
         this._trigger('changeDate');
       } else {
