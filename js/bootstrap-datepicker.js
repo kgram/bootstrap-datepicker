@@ -1159,10 +1159,11 @@
     },
 
     _setDate: function(date, which) {
+      date = date && moment(date);
       if (!which || which === 'date')
-        this._toggle_multidate(date && moment(date));
+        this._toggle_multidate(date);
       if (!which || which === 'view')
-        this.viewDate = date && moment(date);
+        this.viewDate = date;
 
       this.fill();
       this.setValue();
