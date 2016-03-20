@@ -321,11 +321,9 @@
     _buildEvents: function() {
       var events = {
         keyup: $.proxy(function(e) {
-          if ($.inArray(e.keyCode, [27,
-              37, 39, 38, 40, 32,
-              13, 9
-            ]) === -1)
-            this.update();
+          if ($.inArray(e.keyCode, [27, 37, 39, 38, 40, 32, 13, 9]) === -1) {
+            this.updateNoEvents();
+          }
         }, this),
         keydown: $.proxy(this.keydown, this),
         paste: $.proxy(this.paste, this)
@@ -743,9 +741,8 @@
             dates.push(date);
           }
         }, this));
-        fromArgs = true;
       } else {
-        dates = this.isInput ? this.element.val() : this.element.data('date') || this.element.find( 'input').val();
+        dates = this.isInput ? this.element.val() : this.element.data('date') || this.element.find('input').val();
         if (dates && this.o.multidate)
           dates = dates.split(this.o.multidateSeparator);
         else
@@ -756,13 +753,7 @@
       dates = $.map(dates, $.proxy(function(date) {
         return moment(date, this.o.format);
       }, this));
-      dates = $.grep(dates, $.proxy(function(date) {
-        return (
-          date < this.o.startDate ||
-          date > this.o.endDate ||
-          !date.isValid()
-        );
-      }, this), true);
+      dates = $.grep(dates, $.proxy(this.dateWithinRange, this));
       this.dates.replace(dates);
 
       if (this.focusDate)
@@ -815,28 +806,30 @@
 
     getClassNames: function(date) {
       var cls = [],
-        year = this.viewDate.year(),
-        month = this.viewDate.month(),
-        today = moment();
-      if (date.year() < year || (date.year() ===
-          year && date.month() < month)) {
+        viewYear = this.viewDate.year(),
+        viewMonth = this.viewDate.month(),
+        year = date.year(),
+        month = date.month(),
+        day = date.day(),
+        today = moment().startOf('day');
+      if (year < viewYear || (year === viewYear && month < viewMonth)) {
         cls.push('old');
-      } else if (date.year() > year || (date.year() ===
-          year && date.month() > month)) {
+      } else if (year > viewYear || (year === viewYear && month > viewMonth)) {
         cls.push('new');
       }
-      if (this.focusDate && date.valueOf() === this.focusDate.valueOf())
+      if (date.isSame(this.focusDate)) {
         cls.push('focused');
-      if (this.o.todayHighlight && date.isSame(today, 'day')) {
+      }
+      if (this.o.todayHighlight && date.isSame(today)) {
         cls.push('today');
       }
       if (this.dates.contains(date) !== -1)
         cls.push('active');
-      if (date.valueOf() < this.o.startDate || date.valueOf() > this.o.endDate ||
-        $.inArray(date.day(), this.o.daysOfWeekDisabled) !== -1) {
+      if (date < this.o.startDate || date > this.o.endDate ||
+        $.inArray(day, this.o.daysOfWeekDisabled) !== -1) {
         cls.push('disabled');
       }
-      if ($.inArray(date.day(), this.o.daysOfWeekHighlighted) !== -1) {
+      if ($.inArray(day, this.o.daysOfWeekHighlighted) !== -1) {
         cls.push('highlighted');
       }
       if (this.o.datesDisabled.length > 0 &&
@@ -899,6 +892,7 @@
       if (currentDate.date() === 1) {
         currentDate.add(-1, 'week');
       }
+      // All months can fit in 6 weeks
       for (i = 0; i < 42; i++, currentDate.add(1, 'day')) {
         if (i % 7 === 0) {
           html.push('<tr>');
@@ -1207,7 +1201,6 @@
         return;
       }
       var dateChanged = false,
-        dir, newDate, newViewDate,
         focusDate = (this.focusDate || this.viewDate).clone().startOf('day');
       switch (e.keyCode) {
         case 27: // escape
@@ -1227,11 +1220,10 @@
           if (!this.o.keyboardNavigation)
             break;
           // left/up navigates back, right/down navigates forward
-          dir = e.keyCode < 39 ? -1 : 1;
-          newDate = this.dates.get(-1) || moment().startOf('day');
-          var unit;
+          var dir = e.keyCode < 39 ? -1 : 1,
+            unit;
           // Control navigates years, all directions
-          if (e.ctrlKey) {
+          if (e.altKey) {
             unit = 'year';
             this._trigger('changeYear', this.viewDate.clone());
           // Shift navigates months, all directions
