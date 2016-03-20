@@ -87,7 +87,7 @@
     this._process_options(options);
 
     this.dates = new DateArray();
-    this.viewDate = moment(this.o.defaultViewDate);
+    this.viewDate = moment(this.o.defaultViewDate).startOf('day');
     this.focusDate = null;
 
     this.element = $(element);
@@ -765,7 +765,9 @@
       }, this), true);
       this.dates.replace(dates);
 
-      if (this.dates.length)
+      if (this.focusDate)
+        this.viewDate = this.focusDate.clone();
+      else if (this.dates.length)
         this.viewDate = this.dates.get(-1);
       else if (this.viewDate < this.o.startDate)
         this.viewDate = this.o.startDate.clone();
@@ -1206,7 +1208,7 @@
       }
       var dateChanged = false,
         dir, newDate, newViewDate,
-        focusDate = (this.focusDate || this.viewDate).clone();
+        focusDate = (this.focusDate || this.viewDate).clone().startOf('day');
       switch (e.keyCode) {
         case 27: // escape
           if (this.focusDate) {
@@ -1244,13 +1246,11 @@
             unit = 'day';
           }
 
-          newDate.add(dir, unit);
-          newViewDate = focusDate.add(dir, unit);
+          focusDate.add(dir, unit);
 
-          if (this.dateWithinRange(newViewDate)) {
-            this.viewDate = newViewDate;
-            this.focusDate = this.viewDate.clone();
-            this.setValue();
+          if (this.dateWithinRange(focusDate)) {
+            this.focusDate = focusDate;
+            this.viewDate = focusDate.clone();
             this.fill();
             e.preventDefault();
           }
