@@ -1,6 +1,6 @@
 function format_date(date){
     if (date) {
-      return date.toISOString();
+      return date.format('YYYY-MM-DD HH:mm:ssZ');
     }
 }
 
