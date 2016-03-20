@@ -325,6 +325,9 @@
             this.updateNoEvents();
           }
         }, this),
+        change: $.proxy(function() {
+          this.update();
+        }, this),
         keydown: $.proxy(this.keydown, this),
         paste: $.proxy(this.paste, this)
       };
