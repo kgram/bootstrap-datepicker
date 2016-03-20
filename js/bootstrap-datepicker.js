@@ -1125,6 +1125,7 @@
                 date.add(1, 'month');
               }
               date.date(day).startOf('day');
+              this.focusDate = null;
               this._setDate(date);
             }
             break;
