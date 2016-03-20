@@ -1201,7 +1201,7 @@
     },
 
     dateWithinRange: function(date) {
-      return date.isBetween(this.o.startDate, this.o.endDate, 'day');
+      return date.isValid && (date.isAfter(this.o.startDate, 'day') || date.isSame(this.o.startDate, 'day')) && (date.isBefore(this.o.endDate, 'day') || date.isSame(this.o.endDate, 'day'));
     },
 
     keydown: function(e) {
