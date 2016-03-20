@@ -1373,7 +1373,7 @@
         return;
       }
 
-      var new_date = dp.getDate(),
+      var newDate = dp.getDate(),
         i = $.inArray(e.target, this.inputs),
         j = i - 1,
         k = i + 1,
@@ -1382,20 +1382,21 @@
         return;
 
       $.each(this.pickers, function(i, p) {
-        if (!p.getDate())
-          p.focusDate = new_date.clone();
-          // p.setDate(new_date);
+        if (newDate && !p.getDate()) {
+          p.focusDate = newDate.clone();
+          p.viewDate = newDate.clone();
+        }
       });
 
-      if (new_date < this.dates[j]) {
+      if (newDate < this.dates[j]) {
         // Date being moved earlier/left
-        while (j >= 0 && new_date < this.dates[j]) {
-          this.pickers[j--].setDate(new_date);
+        while (j >= 0 && newDate < this.dates[j]) {
+          this.pickers[j--].setDate(newDate);
         }
-      } else if (new_date > this.dates[k]) {
+      } else if (newDate > this.dates[k]) {
         // Date being moved later/right
-        while (k < l && new_date > this.dates[k]) {
-          this.pickers[k++].setDate(new_date);
+        while (k < l && newDate > this.dates[k]) {
+          this.pickers[k++].setDate(newDate);
         }
       }
       this.updateDates();
