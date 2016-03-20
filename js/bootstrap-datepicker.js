@@ -706,9 +706,36 @@
       if (!this._allow_update)
         return this;
 
-      var oldDates = this.dates.copy(),
-        dates = [],
-        fromArgs = false;
+      this.updateDatesOnly.apply(this, arguments);
+
+      if (arguments.length > 0) {
+        // setting date by clicking
+        this.setValue();
+      } else if (this.dates.length) {
+        this._trigger('changeDate');
+      } else {
+        this._trigger('clearDate');
+      }
+
+      this.fill();
+      return this;
+    },
+
+    updateNoEvents: function() {
+      if (!this._allow_update)
+        return this;
+
+      this.updateDatesOnly.apply(this, arguments);
+
+      this.fill();
+      return this;
+    },
+
+    updateDatesOnly: function() {
+      if (!this._allow_update)
+        return this;
+
+      var dates = [];
       if (arguments.length) {
         $.each(arguments, $.proxy(function(i, date) {
           date = moment(date, this.o.format);
@@ -746,21 +773,6 @@
         this.viewDate = this.o.endDate.clone();
       else
         this.viewDate = this.o.defaultViewDate.clone();
-
-      if (fromArgs) {
-        // setting date by clicking
-        this.setValue();
-      } else if (dates.length) {
-        // setting date by typing
-        if (String(oldDates) !== String(this.dates))
-          this._trigger('changeDate');
-      }
-      if (!this.dates.length && oldDates.length)
-        this._trigger('clearDate');
-
-      this.fill();
-      this.element.change();
-      return this;
     },
 
     fillDow: function() {
