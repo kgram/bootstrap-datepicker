@@ -549,7 +549,11 @@
           this.element.find('input').val(formatted);
         }
       } else {
-        this.element.val(formatted);
+        var old = this.element.val();
+        if (old !== formatted) {
+          this.element.val(formatted);
+          this.element.trigger('change');
+        }
       }
       return this;
     },
