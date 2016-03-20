@@ -517,10 +517,8 @@
         element = this.element.find('input');
       }
 
-      if (element) {
-        element.val('');
-      }
-
+      this.dates.clear();
+      this.setValue();
       this.update();
       this._trigger('changeDate');
 
