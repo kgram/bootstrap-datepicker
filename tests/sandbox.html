@@ -326,7 +326,8 @@
 
       $(function(){
         var defaults = {},
-            defaults_form = $('<form>', {html: $('.sandbox-form').html()})
+            defaults_form = $('<form>', {html: $('.sandbox-form').html()}),
+            last = {};
         $.each(defaults_form.serializeArray(), function(i,e){
           if (e.name in defaults)
             defaults[e.name] += ',' + e.value;
@@ -418,20 +419,24 @@
 
           return [html, js];
         }
-        function update_code(){
+        function update_content() {
           var code = build_code(),
               html = code[0],
               js = code[1];
-
+          if (last.html === html && last.js === js) {
+              return;
+          }
+          last.html = html;
+          last.js = js;
+          update_code(html, js);
+          update_sandbox(html, js);
+        }
+        function update_code(html, js){
           var print_html = html.replace(/</g, '&lt;').replace(/>/g, '&gt;')
           $('#sandbox-html').html(prettyPrintOne(print_html, 'html', true));
           $('#sandbox-js').html(prettyPrintOne(js, 'js', true));
         }
-        function update_sandbox(){
-          var code = build_code(),
-              html = code[0],
-              js = code[1];
-
+        function update_sandbox(html, js){
           $('#sandbox-container > :first-child').datepicker('remove');
           $('#sandbox-container').html(html);
           eval(js);
@@ -443,8 +448,7 @@
           // }
         }
         function update_all(){
-          update_code();
-          update_sandbox();
+          update_content();
           update_url();
         }
 
@@ -452,16 +456,14 @@
           .submit(function(){ return false; })
           .on('keydown keyup change', update_all)
           .click(function(e){
-            update_code();
-            update_sandbox();
+            update_content();
             if (!$(e.target).is('button[type=reset]'))
               update_url();
           });
 
         // $('.sandbox-form button[type=reset]').click(function(){
         //   $('.sandbox-form')[0].reset();
-        //   update_code();
-        //   update_sandbox();
+        //   update_content();
         //   history.replaceState && history.replaceState(null, null, '?#sandbox');
         // });
 
@@ -513,8 +515,7 @@
           }
 
           // Don't replaceState the url on pageload
-          update_code();
-          update_sandbox();
+          update_content();
         }, 300);
 
         $(page).trigger('change:bootstrap', page.bootstrap)
