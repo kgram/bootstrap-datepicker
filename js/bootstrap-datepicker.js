@@ -1138,25 +1138,31 @@
     },
 
     _toggle_multidate: function(date) {
-      var ix = this.dates.contains(date);
+      var index = this.dates.contains(date),
+        added;
       if (!date) {
         this.dates.clear();
       }
 
-      if (ix !== -1) {
+      if (index !== -1) {
         if (this.o.multidate === true || this.o.multidate > 1 || this.o.toggleActive) {
-          this.dates.remove(ix);
+          this.dates.remove(index);
+          added = false;
         }
       } else if (this.o.multidate === false) {
         this.dates.clear();
         this.dates.push(date);
+        added = true;
       } else {
         this.dates.push(date);
+        added = true;
       }
 
       if (typeof this.o.multidate === 'number')
         while (this.dates.length > this.o.multidate)
           this.dates.remove(0);
+
+      return added;
     },
 
     _setDate: function(date, which) {
@@ -1266,10 +1272,13 @@
           }
           focusDate = this.focusDate || this.dates.get(-1) || this.viewDate;
           if (this.o.keyboardNavigation) {
-            this._toggle_multidate(focusDate);
+            if (this._toggle_multidate(focusDate)) {
+              this.focusDate = null;
+            } else {
+              this.focusDate = focusDate;
+            }
             dateChanged = true;
           }
-          this.focusDate = null;
           this.viewDate = this.dates.get(-1) || this.viewDate;
           this.setValue();
           this.fill();
