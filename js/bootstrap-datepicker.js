@@ -1,4 +1,7 @@
 /* =========================================================
+ * Modified bootstrap-datepicker, using moment.js for dates
+ * forked repo: https://github.com/kgram/bootstrap-datepicker
+ * =========================================================
  * bootstrap-datepicker.js
  * Repo: https://github.com/eternicode/bootstrap-datepicker/
  * Demo: http://eternicode.github.io/bootstrap-datepicker/
