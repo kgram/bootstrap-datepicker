@@ -1567,9 +1567,9 @@
       '<th colspan="7" class="datepicker-title"></th>' +
       '</tr>' +
       '<tr>' +
-      '<th class="prev">&#171;</th>' +
+      '<th class="prev"></th>' +
       '<th colspan="5" class="datepicker-switch"></th>' +
-      '<th class="next">&#187;</th>' +
+      '<th class="next"></th>' +
       '</tr>' +
       '</thead>',
     contTemplate: '<tbody><tr><td colspan="7"></td></tr></tbody>',
@@ -1584,7 +1584,7 @@
   };
   DPGlobal.template = '<div class="datepicker">' +
     '<div class="datepicker-days">' +
-    '<table class=" table-condensed">' +
+    '<table>' +
     DPGlobal.headTemplate +
     '<tbody></tbody>' +
     DPGlobal.footTemplate +
