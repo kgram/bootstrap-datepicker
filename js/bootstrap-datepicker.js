@@ -1214,7 +1214,8 @@
 
     keydown: function(e) {
       if (!this.picker.is(':visible')) {
-        if (e.keyCode === 40 || e.keyCode === 27) { // allow down to re-show picker
+        // allow down, up and escape to re-show picker
+        if (e.keyCode === 38 || e.keyCode === 40 || e.keyCode === 27) {
           this.show();
           e.stopPropagation();
         }
