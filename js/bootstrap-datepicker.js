@@ -677,7 +677,6 @@
         bottom_overflow;
       if (yorient === 'auto') {
         bottom_overflow = top - scrollTop - windowHeight + calendarHeight + height;
-        console.log('bottom_overflow', bottom_overflow)
         // 20px clearance
         yorient = bottom_overflow < -20 ? 'bottom' : 'top';
       }
