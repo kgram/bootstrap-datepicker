@@ -472,8 +472,10 @@
       this.viewMode = this.o.startView;
       this.showMode();
 
-      if (this.o.forceParse && ( this.isInput && this.element.val() || this.hasInput && this.element.find('input').val()))
+      if (this.o.forceParse && ( this.isInput && this.element.val() || this.hasInput && this.element.find('input').val())) {
         this.setValue();
+      }
+      this._trigger('changeDate');
       this._trigger('hide');
       return this;
     },
@@ -523,7 +525,6 @@
       this.dates.clear();
       this.setValue();
       this.update();
-      this._trigger('changeDate');
 
       if (this.o.autoclose) {
         this.hide();
@@ -713,10 +714,9 @@
       if (arguments.length > 0) {
         // setting date by clicking
         this.setValue();
-        this._trigger('changeDate');
-      } else if (this.dates.length) {
-        this._trigger('changeDate');
-      } else {
+      }
+      this._trigger('changeDate');
+      if (!this.dates.length) {
         this._trigger('clearDate');
       }
 
@@ -1301,9 +1301,8 @@
           break;
       }
       if (dateChanged) {
-        if (this.dates.length)
-          this._trigger('changeDate');
-        else
+        this._trigger('changeDate');
+        if (!this.dates.length)
           this._trigger('clearDate');
         var element;
         if (this.isInput) {
