@@ -1127,6 +1127,10 @@
               }
               date.date(day).startOf('day');
               this.focusDate = null;
+              // Focus must happen before _setDate autocloses dialog
+              if (this._focused_from) {
+                $(this._focused_from).focus();
+              }
               this._setDate(date);
             }
             break;
